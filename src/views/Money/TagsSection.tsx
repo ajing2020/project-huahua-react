@@ -42,7 +42,6 @@ type Props = {
 const TagsSection: React.FC<Props> = (props) => {
   const { tags } = useTags()
   const selectedTagIds = props.value
-  console.log(props.value)
   const onAddTag = () => {
     const tagName = window.prompt('新标签名字为？')
     if (tagName !== '') {

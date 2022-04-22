@@ -19,7 +19,6 @@ function Money() {
     category: '-' as '-' | '+',
     amount: '0'
   })
-  console.log(selected)
   const onChange = (obj: Partial<typeof selected>) => {
     setSelected({ ...selected, ...obj })
   }

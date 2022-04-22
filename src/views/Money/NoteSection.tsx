@@ -1,9 +1,10 @@
-import React from 'react'
 import styled from 'styled-components'
+import React from 'react'
+import { Input } from '../../components/Input'
 
 const Wrapper = styled.section`
   background: #f5f5f5;
-  padding: 0 16px;
+  padding: 14px 16px;
   font-size: 14px;
   > label {
     display: flex;
@@ -30,14 +31,16 @@ type Props = {
 
 const NoteSection: React.FC<Props> = (props) => {
   const note = props.note
+
   return (
     <Wrapper>
       <label>
-        <span>备注</span>
-        <input
-          onChange={(e) => props.onChange(e.target.value)}
-          value={note}
+        <Input
+          label="备注"
           type="text"
+          value={note}
+          onChange={(e) => props.onChange(e.target.value)}
+          placeholder="请填写备注"
         />
       </label>
     </Wrapper>
