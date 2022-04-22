@@ -33,10 +33,15 @@ const Wapper = styled.section`
     margin-top: 8px;
   }
 `
+type Props = {
+  onChange: (selected: string[]) => viod
+  selected: string[]
+}
 
-const TagsSection: React.FC = (props) => {
+const TagsSection: React.FC<Props> = (props) => {
   const [tags, setTages] = useState<string[]>(['衣', '食', '住', '行'])
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  // const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const selectedTags = props.selected
   const onAddTag = () => {
     const tagName = window.prompt('新标签名字为？')
     if (tagName !== '') {
@@ -48,9 +53,9 @@ const TagsSection: React.FC = (props) => {
 
     if (index >= 0) {
       //如果被选中就抛弃 寻找没有被选中的更新
-      setSelectedTags(selectedTags.filter((t) => t !== tag))
+      props.onChange(selectedTags.filter((t) => t !== tag))
     } else {
-      setSelectedTags([...selectedTags, tag])
+      props.onChange([...selectedTags, tag])
     }
   }
   const isSelected = (tag) => (selectedTags.indexOf(tag) >= 0 ? 'selected' : '')

@@ -1,66 +1,14 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React from 'react'
+import { Wrapper } from './NumberPadSection/Wrapper'
 
-const Wrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  > .output {
-    background: white;
-    font-size: 36px;
-    line-height: 72px;
-    text-align: right;
-    padding: 0 16px;
-    box-shadow: inset 0 -5px 5px -5px rgba(0, 0, 0, 0.25),
-      inset 0 5px 5px -5px rgba(0, 0, 0, 0.25);
-  }
-  > .pad {
-    > button {
-      font-size: 18px;
-      float: left;
-      width: 25%;
-      height: 64px;
-      border: none;
-      &.ok {
-        height: 128px;
-        float: right;
-      }
-      &.zero {
-        width: 50%;
-      }
-      &:nth-child(1) {
-        background: #f2f2f2;
-      }
-      &:nth-child(2),
-      &:nth-child(5) {
-        background: #e0e0e0;
-      }
-      &:nth-child(3),
-      &:nth-child(6),
-      &:nth-child(9) {
-        background: #d3d3d3;
-      }
-      &:nth-child(4),
-      &:nth-child(7),
-      &:nth-child(10) {
-        background: #c1c1c1;
-      }
-      &:nth-child(8),
-      &:nth-child(11),
-      &:nth-child(13) {
-        background: #b8b8b8;
-      }
-      &:nth-child(12) {
-        background: #9a9a9a;
-      }
-      &:nth-child(14) {
-        background: #a9a9a9;
-      }
-    }
-  }
-`
+type Props = {
+  onChange: (selected: string[]) => viod
+  onOk: () => void
+  amount: string
+}
 
-const NumberPadSection: React.FC = () => {
-  const [output, setOutput] = useState<string>('0')
+const NumberPadSection: React.FC<Props> = (props) => {
+  const output = props.amount
   const onClickButtonWrapper = (e: React.MouseEvent<HTMLButtonElement>) => {
     switch (e.target.textContent) {
       case '删除':
@@ -68,18 +16,22 @@ const NumberPadSection: React.FC = () => {
           output.substr(0, output.length - 1).length === 0
             ? '0'
             : output.substr(0, output.length - 1)
-        setOutput(newOutput)
+        props.onChange(newOutput)
         break
       case '清空':
-        setOutput('0')
+        props.onChange('0')
         break
       case 'OK':
+        props.onOk('0')
         console.log('提交')
+
         break
       default:
         output === '0'
-          ? setOutput(e.target.textContent)
-          : setOutput(output + e.target.textContent)
+          ? props.onChange(e.target.textContent)
+          : output.length < 16
+          ? props.onChange(output + e.target.textContent)
+          : window.alert('您输入的金额太大了')
     }
   }
   return (
