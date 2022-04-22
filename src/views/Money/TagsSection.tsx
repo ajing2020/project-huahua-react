@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useTags } from 'useTags'
 import React from 'react'
+import { createId } from 'lib/createId'
 
 const Wapper = styled.section`
   background: #ffffff;
@@ -34,41 +35,44 @@ const Wapper = styled.section`
   }
 `
 type Props = {
-  onChange: (selected: string[]) => viod
-  selected: string[]
+  value: number[]
+  onChange: (selected: number[]) => void
 }
 
 const TagsSection: React.FC<Props> = (props) => {
-  const { tags, setTages } = useTags()
-  const selectedTags = props.selected
+  const { tags } = useTags()
+  const selectedTagIds = props.value
+  console.log(props.value)
   const onAddTag = () => {
     const tagName = window.prompt('新标签名字为？')
     if (tagName !== '') {
-      setTages([...tags, tagName])
+      setTags([...tags, { id: createId(), name: tagName }])
     }
   }
-  const onToggleTag = (tag: string) => {
-    const index = selectedTags.indexOf(tag)
-
+  const onToggleTag = (tagId: number) => {
+    const index = selectedTagIds.indexOf(tagId)
     if (index >= 0) {
-      //如果被选中就抛弃 寻找没有被选中的更新
-      props.onChange(selectedTags.filter((t) => t !== tag))
+      // 如果 tag 已被选中，就复制所有没有被选中的 tag，作为新的 selectedTag
+      props.onChange(selectedTagIds.filter((t) => t !== tagId))
     } else {
-      props.onChange([...selectedTags, tag])
+      props.onChange([...selectedTagIds, tagId])
     }
   }
-  const isSelected = (tag) => (selectedTags.indexOf(tag) >= 0 ? 'selected' : '')
+  const getClass = (tagId: number) =>
+    selectedTagIds.indexOf(tagId) >= 0 ? 'selected' : ''
 
   return (
     <Wapper>
       <ol>
         {tags.map((tag) => (
           <li
-            onClick={() => onToggleTag(tag)}
-            key={tag}
-            className={isSelected(tag)}
+            key={tag.id}
+            onClick={() => {
+              onToggleTag(tag.id)
+            }}
+            className={getClass(tag.id)}
           >
-            {tag}
+            {tag.name}
           </li>
         ))}
       </ol>
