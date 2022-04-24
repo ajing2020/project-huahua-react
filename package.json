@@ -1,6 +1,7 @@
 {
   "name": "huahua-react",
   "version": "0.1.0",
+  "homepage": "https://ajing2020/Huahua-react-website",
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
