@@ -26,6 +26,14 @@ const NumberPadSection: React.FC<Props> = (props) => {
         console.log('提交')
 
         break
+      case '.':
+        output === '0'
+          ? props.onChange('0' + e.target.textContent)
+          : output.length < 16
+          ? props.onChange(output + e.target.textContent)
+          : window.alert('您输入的金额太大了')
+
+        break
       default:
         output === '0'
           ? props.onChange(e.target.textContent)
