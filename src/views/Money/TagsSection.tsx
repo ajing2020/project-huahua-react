@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { useTags } from 'useTags'
 import React from 'react'
-import { createId } from 'lib/createId'
 
 const Wapper = styled.section`
   background: #ffffff;
@@ -40,14 +39,9 @@ type Props = {
 }
 
 const TagsSection: React.FC<Props> = (props) => {
-  const { tags } = useTags()
+  const { tags, addTag } = useTags()
   const selectedTagIds = props.value
-  const onAddTag = () => {
-    const tagName = window.prompt('新标签名字为？')
-    if (tagName !== '') {
-      setTags([...tags, { id: createId(), name: tagName }])
-    }
-  }
+
   const onToggleTag = (tagId: number) => {
     const index = selectedTagIds.indexOf(tagId)
     if (index >= 0) {
@@ -75,7 +69,7 @@ const TagsSection: React.FC<Props> = (props) => {
           </li>
         ))}
       </ol>
-      <button onClick={onAddTag}>新增标签</button>
+      <button onClick={addTag}>新增标签</button>
     </Wapper>
   )
 }
